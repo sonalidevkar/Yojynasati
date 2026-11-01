@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import {
   ArrowLeft,
@@ -19,36 +18,38 @@ import {
   useParams,
 } from "react-router-dom";
 
-const API_URL = "http://localhost:5000";
-// Multilingual labels only; backend scheme data stays unchanged.
 import { useLanguage } from "../context/LanguageContext.jsx";
 
+// Deployed Render backend URL
+const API_URL = "https://yojynasati.onrender.com";
+
+// Multilingual labels only; backend scheme data stays unchanged.
 const pageText = {
-  "mr": {
+  mr: {
     "Back to Schemes": "योजनांकडे परत",
     "Loading scheme details...": "योजनेची माहिती लोड होत आहे...",
     "Please wait while we fetch the scheme information.": "योजनेची माहिती मिळेपर्यंत कृपया थांबा.",
     "Scheme Details Not Found": "योजनेची माहिती सापडली नाही",
     "Explore Schemes": "योजना पाहा",
     "FINANCIAL SUPPORT": "आर्थिक सहाय्य",
-    "AVAILABILITY": "उपलब्धता",
+    AVAILABILITY: "उपलब्धता",
     "BUSINESS / ACTIVITY": "व्यवसाय / उपक्रम",
-    "OVERVIEW": "आढावा",
+    OVERVIEW: "आढावा",
     "About the Scheme": "योजनेबद्दल",
     "KEY INFORMATION": "महत्त्वाची माहिती",
     "Main Benefit": "मुख्य लाभ",
     "BENEFIT / SUPPORT": "लाभ / सहाय्य",
-    "REQUIREMENTS": "पात्रता अटी",
+    REQUIREMENTS: "पात्रता अटी",
     "Eligibility Information": "पात्रतेची माहिती",
-    "Category": "प्रवर्ग",
+    Category: "प्रवर्ग",
     "Business / Activity": "व्यवसाय / उपक्रम",
     "Eligible States": "पात्र राज्ये",
     "Income Requirement": "उत्पन्नाची अट",
     "SUPPORT TYPE": "सहाय्याचा प्रकार",
     "Financial Support": "आर्थिक सहाय्य",
-    "KEYWORDS": "कीवर्ड",
+    KEYWORDS: "कीवर्ड",
     "Scheme Tags": "योजनेचे टॅग",
-    "PREPARATION": "तयारी",
+    PREPARATION: "तयारी",
     "Documents Checklist": "आवश्यक कागदपत्रांची यादी",
     "READY TO EXPLORE?": "अर्ज करण्यास तयार आहात?",
     "Start Your Application": "अर्ज सुरू करा",
@@ -62,7 +63,7 @@ const pageText = {
     "Government of India": "भारत सरकार",
     "Check official portal": "अधिकृत पोर्टल तपासा",
     "All States": "सर्व राज्ये",
-    "Various": "विविध",
+    Various: "विविध",
     "Check official guidelines": "अधिकृत मार्गदर्शक सूचना तपासा",
     "No limit specified in this listing": "या यादीत मर्यादा नमूद नाही",
     "Check the official portal for support details": "सहाय्याच्या माहितीसाठी अधिकृत पोर्टल तपासा",
@@ -76,33 +77,34 @@ const pageText = {
     "Official application link is not available yet.": "अधिकृत अर्ज लिंक सध्या उपलब्ध नाही.",
     "Review the official scheme guidelines and confirm your eligibility before applying.": "अर्ज करण्यापूर्वी अधिकृत मार्गदर्शक सूचना वाचा आणि पात्रता तपासा.",
     "Eligibility, documents, benefits and application rules can change. Always verify current information on the official government portal.": "पात्रता, कागदपत्रे, लाभ आणि अर्जाचे नियम बदलू शकतात. अद्ययावत माहिती नेहमी अधिकृत सरकारी पोर्टलवर तपासा.",
-    "Up to": "पर्यंत"
+    "Up to": "पर्यंत",
   },
-  "hi": {
+
+  hi: {
     "Back to Schemes": "योजनाओं पर वापस",
     "Loading scheme details...": "योजना का विवरण लोड हो रहा है...",
     "Please wait while we fetch the scheme information.": "योजना की जानकारी प्राप्त होने तक प्रतीक्षा करें।",
     "Scheme Details Not Found": "योजना का विवरण नहीं मिला",
     "Explore Schemes": "योजनाएं देखें",
     "FINANCIAL SUPPORT": "वित्तीय सहायता",
-    "AVAILABILITY": "उपलब्धता",
+    AVAILABILITY: "उपलब्धता",
     "BUSINESS / ACTIVITY": "व्यवसाय / गतिविधि",
-    "OVERVIEW": "अवलोकन",
+    OVERVIEW: "अवलोकन",
     "About the Scheme": "योजना के बारे में",
     "KEY INFORMATION": "मुख्य जानकारी",
     "Main Benefit": "मुख्य लाभ",
     "BENEFIT / SUPPORT": "लाभ / सहायता",
-    "REQUIREMENTS": "आवश्यकताएं",
+    REQUIREMENTS: "आवश्यकताएं",
     "Eligibility Information": "पात्रता की जानकारी",
-    "Category": "श्रेणी",
+    Category: "श्रेणी",
     "Business / Activity": "व्यवसाय / गतिविधि",
     "Eligible States": "पात्र राज्य",
     "Income Requirement": "आय की शर्त",
     "SUPPORT TYPE": "सहायता का प्रकार",
     "Financial Support": "वित्तीय सहायता",
-    "KEYWORDS": "कीवर्ड",
+    KEYWORDS: "कीवर्ड",
     "Scheme Tags": "योजना टैग",
-    "PREPARATION": "तैयारी",
+    PREPARATION: "तैयारी",
     "Documents Checklist": "आवश्यक दस्तावेज़ सूची",
     "READY TO EXPLORE?": "आवेदन करने के लिए तैयार हैं?",
     "Start Your Application": "आवेदन शुरू करें",
@@ -116,7 +118,7 @@ const pageText = {
     "Government of India": "भारत सरकार",
     "Check official portal": "आधिकारिक पोर्टल देखें",
     "All States": "सभी राज्य",
-    "Various": "विभिन्न",
+    Various: "विभिन्न",
     "Check official guidelines": "आधिकारिक दिशानिर्देश देखें",
     "No limit specified in this listing": "इस सूची में कोई सीमा निर्दिष्ट नहीं है",
     "Check the official portal for support details": "सहायता विवरण के लिए आधिकारिक पोर्टल देखें",
@@ -130,15 +132,15 @@ const pageText = {
     "Official application link is not available yet.": "आधिकारिक आवेदन लिंक अभी उपलब्ध नहीं है।",
     "Review the official scheme guidelines and confirm your eligibility before applying.": "आवेदन से पहले आधिकारिक दिशानिर्देश पढ़ें और अपनी पात्रता जांचें।",
     "Eligibility, documents, benefits and application rules can change. Always verify current information on the official government portal.": "पात्रता, दस्तावेज़, लाभ और आवेदन नियम बदल सकते हैं। नवीनतम जानकारी आधिकारिक सरकारी पोर्टल पर जांचें।",
-    "Up to": "तक"
-  }
+    "Up to": "तक",
+  },
 };
-
-
 
 function SchemeDetails() {
   const { language } = useLanguage();
+
   const tr = (text) => pageText[language]?.[text] || text;
+
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -146,7 +148,11 @@ function SchemeDetails() {
   const [scheme, setScheme] = useState(
     location.state?.scheme || null
   );
-  const [loading, setLoading] = useState(!location.state?.scheme);
+
+  const [loading, setLoading] = useState(
+    !location.state?.scheme
+  );
+
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -157,7 +163,9 @@ function SchemeDetails() {
     }
 
     if (!id) {
-      setError(tr("Please select a scheme to view its details."));
+      setError(
+        tr("Please select a scheme to view its details.")
+      );
       setLoading(false);
       return;
     }
@@ -167,13 +175,16 @@ function SchemeDetails() {
         setLoading(true);
         setError("");
 
-        const response = await fetch(`${API_URL}/api/schemes`);
+        const response = await fetch(
+          `${API_URL}/api/schemes`
+        );
 
         if (!response.ok) {
           throw new Error("Unable to load schemes.");
         }
 
         const data = await response.json();
+
         const schemes = Array.isArray(data)
           ? data
           : data.schemes || [];
@@ -184,14 +195,20 @@ function SchemeDetails() {
 
         if (!selectedScheme) {
           setScheme(null);
-          setError(tr("The requested scheme could not be found."));
+          setError(
+            tr("The requested scheme could not be found.")
+          );
           return;
         }
 
         setScheme(selectedScheme);
       } catch (err) {
+        console.error("Scheme details API error:", err);
+
         setError(
-          tr("Unable to load scheme details. Please make sure the backend is running.")
+          tr(
+            "Unable to load scheme details. Please make sure the backend is running."
+          )
         );
       } finally {
         setLoading(false);
@@ -207,7 +224,11 @@ function SchemeDetails() {
         <div className="scheme-details-container">
           <div className="details-section">
             <h2>{tr("Loading scheme details...")}</h2>
-            <p>{tr("Please wait while we fetch the scheme information.")}</p>
+            <p>
+              {tr(
+                "Please wait while we fetch the scheme information."
+              )}
+            </p>
           </div>
         </div>
       </main>
@@ -227,12 +248,19 @@ function SchemeDetails() {
           </button>
 
           <div className="no-results">
-            <div className="scheme-details-empty-icon">🔍</div>
+            <div className="scheme-details-empty-icon">
+              🔍
+            </div>
+
             <h2>{tr("Scheme Details Not Found")}</h2>
+
             <p>
               {error ||
-                tr("Please return to the schemes page and select a scheme again.")}
+                tr(
+                  "Please return to the schemes page and select a scheme again."
+                )}
             </p>
+
             <button
               className="view-scheme-button"
               onClick={() => navigate("/schemes")}
@@ -268,7 +296,9 @@ function SchemeDetails() {
         "noopener,noreferrer"
       );
     } else {
-      alert(tr("Official application link is not available yet."));
+      alert(
+        tr("Official application link is not available yet.")
+      );
     }
   };
 
@@ -287,22 +317,30 @@ function SchemeDetails() {
 
           <div className="scheme-details-hero-content">
             <div className="scheme-details-top-row">
-              <p className="scheme-details-label">YOJANASATHI AI</p>
+              <p className="scheme-details-label">
+                YOJANASATHI AI
+              </p>
+
               <span className="active-status">
                 <CheckCircle2 size={14} />
-                {scheme.status || tr("Check current status")}
+                {scheme.status ||
+                  tr("Check current status")}
               </span>
             </div>
 
             <h1>{scheme.name}</h1>
 
             <p className="scheme-details-short-name">
-              {scheme.shortName || tr("Government Support Scheme")}
+              {scheme.shortName ||
+                tr("Government Support Scheme")}
             </p>
 
             <div className="scheme-details-ministry">
               <Landmark size={16} />
-              <span>{scheme.ministry || tr("Government of India")}</span>
+              <span>
+                {scheme.ministry ||
+                  tr("Government of India")}
+              </span>
             </div>
           </div>
         </section>
@@ -312,10 +350,12 @@ function SchemeDetails() {
             <div className="quick-info-icon">
               <IndianRupee size={19} />
             </div>
+
             <div>
               <span>{tr("FINANCIAL SUPPORT")}</span>
               <strong>
-                {financialSupport.join(", ") || tr("Check official portal")}
+                {financialSupport.join(", ") ||
+                  tr("Check official portal")}
               </strong>
             </div>
           </div>
@@ -324,12 +364,14 @@ function SchemeDetails() {
             <div className="quick-info-icon">
               <MapPin size={19} />
             </div>
+
             <div>
               <span>{tr("AVAILABILITY")}</span>
               <strong>
                 {states.includes("All")
                   ? tr("All States")
-                  : states.join(", ") || tr("Check official portal")}
+                  : states.join(", ") ||
+                    tr("Check official portal")}
               </strong>
             </div>
           </div>
@@ -338,10 +380,12 @@ function SchemeDetails() {
             <div className="quick-info-icon">
               <BriefcaseBusiness size={19} />
             </div>
+
             <div>
               <span>{tr("BUSINESS / ACTIVITY")}</span>
               <strong>
-                {businessTypes.slice(0, 3).join(", ") || tr("Various")}
+                {businessTypes.slice(0, 3).join(", ") ||
+                  tr("Various")}
               </strong>
             </div>
           </div>
@@ -351,21 +395,30 @@ function SchemeDetails() {
           <div className="scheme-details-left">
             <section className="details-section">
               <div className="details-section-heading">
-                <div className="section-heading-icon">📋</div>
+                <div className="section-heading-icon">
+                  📋
+                </div>
+
                 <div>
                   <span>{tr("OVERVIEW")}</span>
                   <h2>{tr("About the Scheme")}</h2>
                 </div>
               </div>
+
               <p className="details-main-text">
                 {scheme.description ||
-                  tr("Please check the official portal for scheme information.")}
+                  tr(
+                    "Please check the official portal for scheme information."
+                  )}
               </p>
             </section>
 
             <section className="details-section">
               <div className="details-section-heading">
-                <div className="section-heading-icon">💰</div>
+                <div className="section-heading-icon">
+                  💰
+                </div>
+
                 <div>
                   <span>{tr("KEY INFORMATION")}</span>
                   <h2>{tr("Main Benefit")}</h2>
@@ -376,11 +429,14 @@ function SchemeDetails() {
                 <div className="main-benefit-icon">
                   <WalletCards size={25} />
                 </div>
+
                 <div>
                   <span>{tr("BENEFIT / SUPPORT")}</span>
                   <strong>
                     {scheme.benefit ||
-                      tr("Benefits depend on current scheme rules.")}
+                      tr(
+                        "Benefits depend on current scheme rules."
+                      )}
                   </strong>
                 </div>
               </div>
@@ -388,7 +444,10 @@ function SchemeDetails() {
 
             <section className="details-section">
               <div className="details-section-heading">
-                <div className="section-heading-icon">✓</div>
+                <div className="section-heading-icon">
+                  ✓
+                </div>
+
                 <div>
                   <span>{tr("REQUIREMENTS")}</span>
                   <h2>{tr("Eligibility Information")}</h2>
@@ -399,13 +458,17 @@ function SchemeDetails() {
                 <div className="detail-box">
                   <span>{tr("Category")}</span>
                   <strong>
-                    {categories.join(", ") || tr("Check official guidelines")}
+                    {categories.join(", ") ||
+                      tr("Check official guidelines")}
                   </strong>
                 </div>
 
                 <div className="detail-box">
                   <span>{tr("Business / Activity")}</span>
-                  <strong>{businessTypes.join(", ") || tr("Various")}</strong>
+                  <strong>
+                    {businessTypes.join(", ") ||
+                      tr("Various")}
+                  </strong>
                 </div>
 
                 <div className="detail-box">
@@ -413,7 +476,8 @@ function SchemeDetails() {
                   <strong>
                     {states.includes("All")
                       ? tr("All States")
-                      : states.join(", ") || tr("Check official portal")}
+                      : states.join(", ") ||
+                        tr("Check official portal")}
                   </strong>
                 </div>
 
@@ -424,7 +488,9 @@ function SchemeDetails() {
                       ? `${tr("Up to")} ₹${Number(
                           eligibility.maxIncome
                         ).toLocaleString("en-IN")}`
-                      : tr("No limit specified in this listing")}
+                      : tr(
+                          "No limit specified in this listing"
+                        )}
                   </strong>
                 </div>
               </div>
@@ -439,7 +505,10 @@ function SchemeDetails() {
 
             <section className="details-section">
               <div className="details-section-heading">
-                <div className="section-heading-icon">💳</div>
+                <div className="section-heading-icon">
+                  💳
+                </div>
+
                 <div>
                   <span>{tr("SUPPORT TYPE")}</span>
                   <h2>{tr("Financial Support")}</h2>
@@ -455,7 +524,11 @@ function SchemeDetails() {
                     </span>
                   ))
                 ) : (
-                  <span>{tr("Check the official portal for support details")}</span>
+                  <span>
+                    {tr(
+                      "Check the official portal for support details"
+                    )}
+                  </span>
                 )}
               </div>
             </section>
@@ -463,7 +536,10 @@ function SchemeDetails() {
             {tags.length > 0 && (
               <section className="details-section">
                 <div className="details-section-heading">
-                  <div className="section-heading-icon">🏷️</div>
+                  <div className="section-heading-icon">
+                    🏷️
+                  </div>
+
                   <div>
                     <span>{tr("KEYWORDS")}</span>
                     <h2>{tr("Scheme Tags")}</h2>
@@ -483,6 +559,7 @@ function SchemeDetails() {
                 <div className="section-heading-icon">
                   <FileCheck2 size={22} />
                 </div>
+
                 <div>
                   <span>{tr("PREPARATION")}</span>
                   <h2>{tr("Documents Checklist")}</h2>
@@ -492,8 +569,14 @@ function SchemeDetails() {
               {documents.length > 0 ? (
                 <div className="document-list">
                   {documents.map((document, index) => (
-                    <div className="document-item" key={document}>
-                      <div className="document-number">{index + 1}</div>
+                    <div
+                      className="document-item"
+                      key={document}
+                    >
+                      <div className="document-number">
+                        {index + 1}
+                      </div>
+
                       <span>{document}</span>
                       <CheckCircle2 size={16} />
                     </div>
@@ -501,7 +584,9 @@ function SchemeDetails() {
                 </div>
               ) : (
                 <p>
-                  {tr("Check the official portal for the required documents.")}
+                  {tr(
+                    "Check the official portal for the required documents."
+                  )}
                 </p>
               )}
             </section>
@@ -509,21 +594,35 @@ function SchemeDetails() {
 
           <aside className="scheme-details-right">
             <div className="application-card">
-              <div className="application-card-icon">🚀</div>
-              <p className="application-label">{tr("READY TO EXPLORE?")}</p>
-              <h2>{tr("Start Your Application")}</h2>
-              <p>
-                {tr("Review the official scheme guidelines and confirm your eligibility before applying.")}
+              <div className="application-card-icon">
+                🚀
+              </div>
+
+              <p className="application-label">
+                {tr("READY TO EXPLORE?")}
               </p>
 
-              <button className="apply-button" onClick={handleApply}>
+              <h2>{tr("Start Your Application")}</h2>
+
+              <p>
+                {tr(
+                  "Review the official scheme guidelines and confirm your eligibility before applying."
+                )}
+              </p>
+
+              <button
+                className="apply-button"
+                onClick={handleApply}
+              >
                 {tr("Open Official Portal")}
                 <ExternalLink size={17} />
               </button>
 
               <button
                 className="details-back-action"
-                onClick={() => navigate("/eligibility-checker")}
+                onClick={() =>
+                  navigate("/eligibility-checker")
+                }
               >
                 {tr("Check Another Scheme")}
               </button>
@@ -531,29 +630,43 @@ function SchemeDetails() {
 
             <div className="verification-card">
               <ShieldCheck size={25} />
+
               <div>
-                <strong>{tr("Verify Before Applying")}</strong>
+                <strong>
+                  {tr("Verify Before Applying")}
+                </strong>
+
                 <p>
-                  {tr("Eligibility, documents, benefits and application rules can change. Always verify current information on the official government portal.")}
+                  {tr(
+                    "Eligibility, documents, benefits and application rules can change. Always verify current information on the official government portal."
+                  )}
                 </p>
               </div>
             </div>
 
-            {scheme.officialLink && scheme.officialLink !== "#" && (
-              <a
-                href={scheme.officialLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="official-link-card"
-              >
-                <Landmark size={21} />
-                <div>
-                  <strong>{tr("Official Scheme Portal")}</strong>
-                  <span>{tr("Open government website")}</span>
-                </div>
-                <ExternalLink size={16} />
-              </a>
-            )}
+            {scheme.officialLink &&
+              scheme.officialLink !== "#" && (
+                <a
+                  href={scheme.officialLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="official-link-card"
+                >
+                  <Landmark size={21} />
+
+                  <div>
+                    <strong>
+                      {tr("Official Scheme Portal")}
+                    </strong>
+
+                    <span>
+                      {tr("Open government website")}
+                    </span>
+                  </div>
+
+                  <ExternalLink size={16} />
+                </a>
+              )}
           </aside>
         </div>
       </div>
